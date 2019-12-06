@@ -20,9 +20,25 @@
 import header from './components/header/header.vue';
 
 export default{
+  data() {
+    return {
+      seller: {}
+    };
+  },
   components: {
     'v-header': header
+  },
+  created() {
+    // console.log('111');
+    this.$axios.get('/api/appData')
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
+
 };
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
