@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header>
     <div class="tab border-1px">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
@@ -18,7 +18,7 @@
 
 <script>
 import header from './components/header/header.vue';
-
+const ERR_OK = 0;
 export default{
   data() {
     return {
@@ -29,10 +29,13 @@ export default{
     'v-header': header
   },
   created() {
-    // console.log('111');
-    this.$axios.get('/api/appData')
-      .then(response => {
-        console.log(response);
+    this.$axios.get('/api/seller')
+      .then(res => {
+        console.log(res.data);
+        if (res.data.errno === ERR_OK) {
+          this.seller = res.data.data;
+          console.log(this.seller);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -43,7 +46,6 @@ export default{
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   @import './common/stylus/mlxin.styl'
-  // @import 'common/stylus/index.styl'
 #app
   .tab
     display: flex
