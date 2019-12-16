@@ -23,6 +23,12 @@
       </div>
     </div>
     <div class="bulletin-wrapper">
+      <span class="buulletin-title"></span>
+      <span class="bulletin-text">{{ seller.bulletin }}</span>
+      <i class="icon-keyboard_arrow_right"></i>
+    </div>
+    <div class="background">
+      <img :src="seller.avatar" style="width: 100%; height: 100%;">
     </div>
   </div>
 </template>
@@ -43,7 +49,8 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus">
   @import '../../common/stylus/index.styl'
   .header
-    background : #999
+    position: relative
+    background-color:rgba(7,17,27,.5)
     color:#fff
     .content-wrapper
       position: relative
@@ -103,55 +110,61 @@ export default {
       .support-count
         position :absolute
         right 12px
-        bottom: 18px
+        bottom: 14px
         padding 0 8px
         height: 24px
         line-height 24px
         border-radius: 14px
         background-color:rgba(0,0,0,.2)
-        // text-align: center
-        // display: flex
+        text-align: center
+        font-size: 0px
+        display: flex
+        align-items:center
         // align-items: baseline
         .count
+          display:inline-block
+          // vertical-align: center
           font-size: 10px
         .icon-keyboard_arrow_right
-          // margin-left: 2px
+          margin-left: 2px
           display:inline-block
+          line-height: 24px
           font-size: 10px
-
-    //     span
-    //       display: inline-block
-    //       font-size:10px
-    //       // line-height :12px
-    //     span+span
-    //       margin-left: 2px
-    // .bulletin-wrapper
-    //   width 100%
-    //   height 28px
-    //   // padding: 0 12px
-    //   display flex
-    //   justify-content space-between
-    //   align-items center
-    //   background-color:rgb(7,17,27,0.1)
-    //   // background :red
-    //   .icon
-    //     margin-left: 12px
-    //     display:inline-block
-    //     width:22px
-    //     height:12px
-    //     bg-image(bulletin)
-    //     background-size :cover
-    //     background-repeat: no-repeat
-    //   .text
-    //     width: 84%
-    //     font-size:10px
-    //     line-height 28px
-    //     margin-left : 4px
-    //     margin-right: 4px
-    //     overflow :hidden
-    //     text-overflow:ellipsis
-    //     white-space:nowrap
-    //   .btn{
-    //     margin-right: 12px
-    //   }
+    .bulletin-wrapper
+      position:relative
+      height: 28px
+      line-height: 28px
+      padding: 0 22px 0 12px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow:ellipsis
+      // font-size:0
+      word-spacing:-4px
+      background-color: rgba(7,17,27,.2)
+      .buulletin-title
+        display:inline-block
+        vertical-align:top
+        margin-top:7px
+        width:22px
+        height:12px
+        bg-image(bulletin)
+        background-size: 22px 12px
+        background-repeat: no-repeat
+      .bulletin-text
+        margin: 0 4px
+        font-size: 10px
+        vertical-align:top
+      .icon-keyboard_arrow_right
+        position: absolute
+        font-size: 10px
+        right: 12px
+        top: 9px
+    .background
+      position: absolute
+      left: 0
+      top: 0
+      width:100%
+      height:100%
+      z-index:-1
+      filter:blur(10px)
 </style>
