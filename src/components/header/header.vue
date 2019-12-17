@@ -52,6 +52,7 @@ export default {
     position: relative
     background-color:rgba(7,17,27,.5)
     color:#fff
+    overflow:hidden
     .content-wrapper
       position: relative
       display flex
