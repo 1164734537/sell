@@ -31,17 +31,29 @@
       <img :src="seller.avatar" style="width: 100%; height: 100%;">
     </div>
     <div v-show="detailShow" class="detail">
-
+      <div class="detail-wrapper clearfix">
+        <div class="detail-main">
+          <h1 class="name">{{seller.name}}</h1>
+          <!-- <star :size='48' :score='4.5'></star> -->
+        </div>
+      </div>
+      <div class="detail-close">
+        <i class="icon-close" @click="hideDetail"></i>
+      </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import star from '../star/star';
 export default {
   props: {
     seller: {
       type: Object
     }
+  },
+  components: {
+    'star': star
   },
   data() {
     return {
@@ -51,6 +63,9 @@ export default {
   methods: {
     showDetail: function() {
       this.detailShow = true;
+    },
+    hideDetail: function() {
+      this.detailShow = false;
     }
   },
   created() {
@@ -190,4 +205,21 @@ export default {
       height: 100%
       overflow: auto
       background-color:rgba(7,17,27,.8)
+      .detail-wrapper
+        min-height: 100%
+        width: 100%
+        .detail-main
+          margin-top:64px
+          padding-bottom: 64px
+          .name
+            font-size: 16px
+            line-height: 16px
+            font-weight: 700
+            text-align: center
+      .detail-close
+        position: relative
+        width: 32px
+        height: 32px
+        margin: -64px auto 0 auto
+        clear: both
 </style>
