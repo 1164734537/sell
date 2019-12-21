@@ -228,6 +228,8 @@ export default {
       height: 100%
       overflow: auto
       opacity: 1
+      // 仅适用于ios
+      backdrop-filter: blur(10px)
       background-color:rgba(7,17,27,.8) //渐变结束后的效果
       //重点开始 定义渐变的进入和退出都经历0.5s
       &.fade-enter-active,&.fade-leave-active //定义进入过渡生效时的状态 定义离开过渡生效时的状态
