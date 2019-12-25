@@ -31,10 +31,10 @@ export default{
   created() {
     this.$axios.get('/api/seller')
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.errno === ERR_OK) {
           this.seller = res.data.data;
-          console.log(this.seller);
+          // console.log(this.seller);
         }
       })
       .catch(error => {

@@ -109,8 +109,8 @@ export default {
       display flex
       padding 24px 12px 18px 24px
       .avatar
+        font-size: 0
         img
-          font-size: 0
           border-radius :2px
       .content
         margin-left :16px
