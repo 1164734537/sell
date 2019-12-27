@@ -14,9 +14,9 @@
         <li  v-for="item in goods" class="food-list" :key="item.name">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
-            <li v-for="food in item.foods" :key="food.name">
+            <li v-for="food in item.foods" :key="food.name" class="food-item border-1px">
               <div class="icon">
-                 <img :src="food.image" alt="" style="width: 50px;height: 50px;">
+                 <img :src="food.icon" alt="">
               </div>
               <div class="content">
                 <h2 class="name">{{ food.name}}</h2>
@@ -27,6 +27,10 @@
                 </div>
                 <div class="price">
                   <span>&#165;{{food.price}}</span>
+                  <span v-show="food.oldPrice">&#165;{{food.oldPrice}}</span>
+                </div>
+                <div class="count">
+
                 </div>
               </div>
             </li>
@@ -116,4 +120,24 @@ export default{
           font-size: 12px
     .foods-wrapper
       flex: 1
+      .title
+        padding-left: 14px
+        height: 26px
+        line-height: 26px
+        border-left: 2px solid #d9dde1
+        font-size: 12px
+        color: rgb(147,153,159)
+        background-color: #f3f5f7
+      .food-item
+        display: flex
+        margin: 18px
+        padding-bottom: 18px
+        border-1px(rgba(7,17,27,.1))
+        &:last-child
+         border-none()
+         margin-bottom: 0px
+        .icon
+          flex: 0 0 57px
+          img
+           width: 100%
 </style>

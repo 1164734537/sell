@@ -10,15 +10,10 @@ border-1px($color)
     content : ' '
 
 border-none()
-  position:relative
+
   &:after
-    display :block
-    position : absolute
-    left :0
-    bottom : 0
-    width : 100%
-    border-top: 0px solid $color
-    content : ' '
+    display: none
+
 
 bg-image($url)
   background-image:url($url+"@2x.png")
