@@ -22,15 +22,12 @@
                 <h2 class="name">{{ food.name}}</h2>
                 <p class="desc">{{food.description}}</p>
                 <div class="extra">
-                  <span>月售{{food.sellCount}}份</span>
+                  <span class="count">月售{{food.sellCount}}份</span>
                   <span>好评率{{food.rating}}%</span>
                 </div>
                 <div class="price">
-                  <span>&#165;{{food.price}}</span>
-                  <span v-show="food.oldPrice">&#165;{{food.oldPrice}}</span>
-                </div>
-                <div class="count">
-
+                  <span class="now">&#165;{{food.price}}</span>
+                  <span class="old" v-show="food.oldPrice">&#165;{{food.oldPrice}}</span>
                 </div>
               </div>
             </li>
@@ -138,6 +135,39 @@ export default{
          margin-bottom: 0px
         .icon
           flex: 0 0 57px
+          font-size:0px
+          margin-right:10px
           img
-           width: 100%
+           width: 57px
+           height:57px
+        .content
+          flex: 1
+          .name
+            margin: 2px 0 8px 0
+            font-size: 14px
+            color:rgb(7,17,27)
+            line-height: 14px
+            // font-weight: 700
+          .desc,.extra
+            font-size:10px
+            color:rgb(147,153,159)
+            line-height: 10px
+            // margin:8px
+          .desc
+            margin-bottom: 8px
+          .extra
+            word-spacing:-4px
+            &.count
+              margin-right: 12px
+          .price
+              font-weight: 700
+              line-height:24px
+              .now
+                 margin-right:8px
+                 font-size:14px
+                 color:rgb(240,20,20)
+               .old
+                 text-decoration: line-through
+                 font-size:10px
+                 color:rgb(147,153,159)
 </style>
