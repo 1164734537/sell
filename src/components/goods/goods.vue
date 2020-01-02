@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menu">
       <ul>
-        <li  class="menu-item" v-for="item in goods" :key="item.name">
+        <li  class="menu-item" v-for="(item,index) in goods" :key="item.name" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)">
           <span class="text border-1px">
             <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
           </span>
@@ -11,7 +11,7 @@
     </div>
     <div class="foods-wrapper" ref="foods">
       <ul>
-        <li  v-for="item in goods" class="food-list" :key="item.name">
+        <li  v-for="item in goods" class="food-list food-list-hook" :key="item.name">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li v-for="food in item.foods" :key="food.name" class="food-item border-1px">
@@ -49,8 +49,25 @@ export default{
   },
   data() {
     return {
-      goods: {}
+      goods: {},
+      // 存高度区间的数组
+      listHeight: [],
+      scrollY: 0
     };
+  },
+  computed: {
+    // 通过实时监听,判断左侧索引的位置
+    currentIndex() {
+      for (let i = 0; i < this.listHeight.length; i++) {
+        // 如同[0,+∞)这样的区间
+        let height1 = this.listHeight[i];
+        let height2 = this.listHeight[i + 1];
+        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+          return i;
+        }
+      }
+      return 0;
+    }
   },
   created() {
     this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -62,6 +79,7 @@ export default{
           // console.log(this.goods);
           this.$nextTick(() => {
             this._initScroll();
+            this._calculateHeight();
           });
         }
       })
@@ -70,9 +88,51 @@ export default{
       });
   },
   methods: {
+    selectMenu(index, event) {
+      // console.log(event);
+      // 监听到浏览器的就 return 掉
+      if (!event._constructed) {
+        return;
+      }
+      // console.log(index);
+      // 获取到index 值后,对右侧的区间进行定位
+      let foodList = this.$refs.foods.getElementsByClassName('food-list-hook');
+      let el = foodList[index];
+      // scrollToElement 是better-scroll 下的一个api
+      // scrollToElement(el, time, offsetX, offsetY, easing)
+      // 滚动到某个元素，el（必填）表示 dom 元素，time 表示动画时间，offsetX 和 offsetY 表示坐标偏移量，easing 表示缓动函数
+      this.foodsScroll.scrollToElement(el, 300);
+    },
     _initScroll() {
-      this.menuScroll = new BScroll(this.$refs.menu, {});
-      this.foodsScroll = new BScroll(this.$refs.foods, {});
+      this.menuScroll = new BScroll(this.$refs.menu, {
+        // 默认是阻止点击事件的
+        click: true
+      });
+      this.foodsScroll = new BScroll(this.$refs.foods, {
+        // probeType: 1 滚动的时候会派发scroll事件，会截流。2滚动的时候实时派发scroll事件，不会截流。 3除了实时派发scroll事件，在swipe的情况下仍然能实时派发scroll事件
+        probeType: 3
+      });
+      // 监听滚动事件
+      this.foodsScroll.on('scroll', (pos) => {
+        // console.log(pos.y); 取 正整数,
+        this.scrollY = Math.abs(Math.round(pos.y));
+      });
+    },
+    _calculateHeight() {
+      // 获取每个li
+      let foodList = this.$refs.foods.getElementsByClassName('food-list-hook');
+      // console.log(foodList)
+      // 定义一个临时变量
+      let height = 0;
+      // 把它push上数组 区间数组
+      this.listHeight.push(height);
+      for (let i = 0; i < foodList.length; i++) {
+        // 这里是获得每一项li
+        let item = foodList[i];
+        // 得到每一项li的高度,并进行累加(因为是区间高度)
+        height += item.clientHeight;
+        this.listHeight.push(height);
+      }
     }
   }
 };
@@ -99,6 +159,14 @@ export default{
         height: 54px
         line-height:14px
         padding: 0 12px
+        &.current
+          position: relative
+          z-index: 10
+          margin-top: -1px
+          background : #fff
+          .text
+            font-weight: 700
+            border-none()
         .icon
           display: inline-block
           vertical-align: top
@@ -168,8 +236,8 @@ export default{
             line-height:12px
           .extra
             word-spacing:-4px
-            &.count
-              margin-right: 12px
+            & .count
+             margin-right: 12px
           .price
               font-weight: 700
               line-height:24px
