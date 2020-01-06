@@ -29,6 +29,9 @@
                   <span class="now">&#165;{{food.price}}</span>
                   <span class="old" v-show="food.oldPrice">&#165;{{food.oldPrice}}</span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food = "food"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
@@ -42,6 +45,7 @@
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll';
 import shopcart from '@/components/shopcart/shopcart';
+import cartcontrol from '@/components/cartcontrol/cartcontrol';
 const ERR_OK = 0;
 export default{
   props: {
@@ -112,7 +116,9 @@ export default{
       });
       this.foodsScroll = new BScroll(this.$refs.foods, {
         // probeType: 1 滚动的时候会派发scroll事件，会截流。2滚动的时候实时派发scroll事件，不会截流。 3除了实时派发scroll事件，在swipe的情况下仍然能实时派发scroll事件
-        probeType: 3
+        probeType: 3,
+        // 设置点击,是为了让count可以被点击到
+        click: true
       });
       // 监听滚动事件
       this.foodsScroll.on('scroll', (pos) => {
@@ -138,7 +144,8 @@ export default{
     }
   },
   components: {
-    shopcart
+    shopcart,
+    cartcontrol
   }
 };
 </script>
@@ -254,4 +261,12 @@ export default{
                  text-decoration: line-through
                  font-size:10px
                  color:rgb(147,153,159)
+          .cartcontrol-wrapper
+              // position: absolute
+              position: absolute
+              right: 0
+              bottom: 12px
+              // width: 50px
+              // height: 50px
+              // background: red
 </style>
