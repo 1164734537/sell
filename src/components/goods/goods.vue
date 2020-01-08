@@ -38,7 +38,7 @@
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -73,6 +73,21 @@ export default{
         }
       }
       return 0;
+    },
+    selectFoods() {
+      let foods = [];
+      // 遍历goods获得 foods
+      this.goods.forEach((good) => {
+        // 再遍历 good.foods  拿到 food
+        good.foods.forEach((food) => {
+          // 判断当前 food.count 是否存在 ,有则是选中的
+          if (food.count) {
+            // 有则push到数组
+            foods.push(food);
+          }
+        });
+      });
+      return foods;
     }
   },
   created() {
