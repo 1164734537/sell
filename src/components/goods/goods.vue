@@ -30,7 +30,7 @@
                   <span class="old" v-show="food.oldPrice">&#165;{{food.oldPrice}}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  <cartcontrol :food = "food"></cartcontrol>
+                  <cartcontrol @cart-add="cartAdd" :food = "food"></cartcontrol>
                 </div>
               </div>
             </li>
@@ -38,7 +38,12 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
+    <!-- 购物车区域 -->
+    <shopcart :select-foods="selectFoods"
+              :delivery-price="seller.deliveryPrice"
+              :minPrice="seller.minPrice"
+              ref="shopcart"
+              ></shopcart>
   </div>
 </template>
 
@@ -55,7 +60,7 @@ export default{
   },
   data() {
     return {
-      goods: {},
+      goods: [],
       // 存高度区间的数组
       listHeight: [],
       scrollY: 0
@@ -156,6 +161,21 @@ export default{
         height += item.clientHeight;
         this.listHeight.push(height);
       }
+    },
+    _drop(target) {
+      // 在goods.vue定义 _drop方法将cartcontrol传递过来的target对象再传递给shopcart
+      // console.log(target);
+      this.$nextTick(() =>{
+       // 使用$nextTick优化体验
+       //target代表点击的添加商品按钮icon-add_circle
+        this.$refs.shopcart.drop(target); //访问到$refs.shopcart组件中的方法drop
+      })
+    },
+    // 点击加号按钮触发事件
+    cartAdd(target) { // 点击加号按钮触发事件
+      // console.log(target);
+      // 调用_drop方法
+      this._drop(target);
     }
   },
   components: {
